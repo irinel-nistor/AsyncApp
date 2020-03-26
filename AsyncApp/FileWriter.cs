@@ -12,7 +12,7 @@ namespace AsyncApp
         {
           using (StreamWriter writer = File.CreateText(file))
           {
-              await Task.Delay(100);
+              await Task.Delay(100).ConfigureAwait(false);
               await writer.WriteAsync(content);
           }
         }

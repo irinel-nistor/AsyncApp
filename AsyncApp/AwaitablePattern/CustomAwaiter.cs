@@ -10,22 +10,22 @@ namespace AsyncApp.AwaitablePattern
 {
     public class CustomAwaiter : INotifyCompletion, ICriticalNotifyCompletion
     {
-        private bool isCompleted = false;
         private bool continueOnCapturedContext = true;
         private Exception exception;
         private Action savedContinuation;
+        private SynchronizationContext savedSynchronizationContext = SynchronizationContext.Current;
         private static EventWaitHandle eventWaitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
-
+        
         public void SetResult()
         {
-            isCompleted = true;
+            IsCompleted = true;
             InvokeSavedContinuation();
             eventWaitHandle.Set();
         }
 
         public void SetException(Exception exception)
         {
-            isCompleted = true;
+            IsCompleted = true;
             this.exception = exception;
             eventWaitHandle.Set();
             InvokeSavedContinuation();
@@ -38,7 +38,7 @@ namespace AsyncApp.AwaitablePattern
 
         public void UnsafeOnCompleted(Action continuation)
         {
-            if (isCompleted)
+            if (IsCompleted)
             {
                 continuation();
             }
@@ -48,7 +48,7 @@ namespace AsyncApp.AwaitablePattern
             }
         }
 
-        public bool IsCompleted { get { return isCompleted; } }
+        public bool IsCompleted { get; private set; } = false;
 
         public void GetResult()
         {
@@ -72,10 +72,9 @@ namespace AsyncApp.AwaitablePattern
 
         private void InvokeSavedContinuation()
         {
-            var synchronizationContext = SynchronizationContext.Current;
-            if (this.continueOnCapturedContext && synchronizationContext != null)
+            if (this.continueOnCapturedContext && this.savedSynchronizationContext != null)
             {
-                synchronizationContext.Post(delegate { savedContinuation?.Invoke(); }, null);
+                savedSynchronizationContext.Post(delegate { savedContinuation?.Invoke(); }, null);
             }
             else
             {

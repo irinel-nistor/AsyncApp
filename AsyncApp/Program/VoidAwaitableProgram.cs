@@ -15,7 +15,7 @@ namespace AsyncApp.Program
             };
 
             var awaitable = fakeDatabase.WriteToDatebaseAsyncWithError();
-            //awaitable.GetAwaiter().GetResult();
+            awaitable.GetAwaiter().GetResult();
 
             Console.WriteLine("After void call");
         }

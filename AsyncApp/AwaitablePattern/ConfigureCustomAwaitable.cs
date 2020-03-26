@@ -4,18 +4,10 @@ using System.Text;
 
 namespace AsyncApp.AwaitablePattern
 {
-    public class ConfigureCustomAwaitable
+    public class ConfigureCustomAwaitable : CustomAwaitable
     {
-        private CustomAwaiter customAwaiter;
-
-        public ConfigureCustomAwaitable(CustomAwaiter customAwaiter)
+        public ConfigureCustomAwaitable(CustomAwaiter customAwaiter) : base(customAwaiter)
         {
-            this.customAwaiter = customAwaiter;
-        }
-
-        public CustomAwaiter GetAwaiter()
-        {
-            return customAwaiter;
         }
     }
 }

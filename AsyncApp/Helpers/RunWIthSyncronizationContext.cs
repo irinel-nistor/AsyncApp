@@ -16,6 +16,7 @@ namespace AsyncApp.Helpers
                 var syncCtx = new CustomSynchronizationContext();
                 SynchronizationContext.SetSynchronizationContext(syncCtx);
                 var t = func();
+                t.ConfigureAwait(false);
                 t.ContinueWith(
                     delegate { syncCtx.Complete(); }, TaskScheduler.Default);
 

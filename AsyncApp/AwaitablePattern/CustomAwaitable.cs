@@ -18,5 +18,10 @@ namespace AsyncApp.AwaitablePattern
         {
             return awaiter;
         }
+
+        public ConfigureCustomAwaitable ConfigureAwait(bool continueOnCapturedContext)
+        {
+            return awaiter.ConfigureAwait(continueOnCapturedContext);
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace AsyncApp.Program
 
             // 3
             var voidProgram = new VoidAwaitableProgram();
-            voidProgram.Run();
+            //voidProgram.Run();
 
             //4
             var awaitableExceptionProgram = new AwaitableExceptionProgram();
@@ -33,6 +33,10 @@ namespace AsyncApp.Program
             // 5
             var configureAwaitProgram = new ConfigureAwaitProgram();
             configureAwaitProgram.Run();
+
+            //2
+            var awaitableProgram2 = new AwaitableProgram();
+            await awaitableProgram.Run();
         }
     }
 }

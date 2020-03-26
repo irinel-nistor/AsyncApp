@@ -11,18 +11,18 @@ namespace AsyncApp.Program
     {
         public void Run()
         {
-            var fileWriter = new FileWriter();
-            RunWIthSyncronizationContext.Run(async () =>
-            {
-                await fileWriter.WriteToFileAsync("text.txt", "S");
-                Console.WriteLine("Run on main thread");
-            });
+            //var fileWriter = new FileWriter();
+            //RunWIthSyncronizationContext.Run(async () =>
+            //{
+            //    await fileWriter.WriteToFileAsync("text.txt", "S");
+            //    Console.WriteLine("Run on main thread");
+            //});
 
-            RunWIthSyncronizationContext.Run(async () =>
-            {
-                fileWriter.WriteToFileAsync("text.txt", "S").GetAwaiter().GetResult();
-                Console.WriteLine("Run on main thread");
-            });
+            //RunWIthSyncronizationContext.Run(async () =>
+            //{
+            //    fileWriter.WriteToFileAsync("text.txt", "S").GetAwaiter().GetResult();
+            //    Console.WriteLine("Run on main thread");
+            //});
 
             var fakeDatabase = new FakeDatabase();
             RunWIthSyncronizationContext.Run(async () =>

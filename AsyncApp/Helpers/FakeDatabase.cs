@@ -64,20 +64,18 @@ namespace AsyncApp.Helpers
         {
             // Create and start the asyncronous operation
             Task.Factory.StartNew(async () => {
-                await Task.Delay(500);
-                Console.WriteLine("Ongoing async operation");
-                await Task.Delay(500);
+                await Task.Delay(100);
+                Console.WriteLine("Ongoing async operation - continuation on current context");
+                await Task.Delay(100);
                 OnWriteCompleted(this, new EventArgs());
-            }, CancellationToken.None
-            , TaskCreationOptions.None
-            , TaskScheduler.FromCurrentSynchronizationContext());
+            });
 
             // Set event to call continuation and set isComplete to true 
             var awaiter = new CustomAwaiter();
             OnWriteCompleted += (o, e) => awaiter.SetResult();
 
             // Create and return a Task like object
-            return new CustomAwaitable(awaiter);
+            return new CustomAwaitable(awaiter).ConfigureAwait(false);
         }
     }
 }
